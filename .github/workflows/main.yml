@@ -1,0 +1,34 @@
+name: Deploy to AWS Lambda
+on: [push]
+jobs:
+  deploy_source:
+    name: Deploy to AWS Lambda
+    strategy:
+      matrix:
+        node-version: [12.x]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Compile project
+        run: |
+          npm ci
+          npm run compile --if-present
+        env:
+          CI: true
+      - name: zip the compiled JS
+        uses: montudor/action-zip@v0.1.0
+        with:
+          args: zip -qq -r ./bundle.zip ./dist
+      - name: Deploy to AWS Lambda
+        uses: appleboy/lambda-action@master
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: eu-west-3
+          function_name: webIR
+          zip_file: bundle.zip
