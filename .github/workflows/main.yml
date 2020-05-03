@@ -23,7 +23,7 @@ jobs:
           npm run compile --if-present
         env:
           CI: true
-      - name: zip the compiled JS
+      - name: Zip the compiled JS
         uses: montudor/action-zip@v0.1.0
         with:
           args: zip -qq -r ./bundle.zip ./dist
