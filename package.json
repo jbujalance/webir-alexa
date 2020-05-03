@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/jbujalance/webir-alexa#readme",
   "devDependencies": {
+    "@types/aws-lambda": "^8.10.51",
     "tslint": "^6.1.2",
     "typescript": "^3.8.3"
   },
