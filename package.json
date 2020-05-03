@@ -1,0 +1,32 @@
+{
+  "name": "webir-alexa",
+  "version": "0.1.0",
+  "description": "Alexa skill that connects to a WebIR instance in order to control any managed IR device",
+  "main": "dist/app.js",
+  "scripts": {
+    "start": "tsc && node dist/app.js",
+    "compile": "tsc",
+    "lint": "tslint -p tsconfig.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbujalance/webir-alexa.git"
+  },
+  "keywords": [
+    "alexa"
+  ],
+  "author": "José Bujalance",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jbujalance/webir-alexa/issues"
+  },
+  "homepage": "https://github.com/jbujalance/webir-alexa#readme",
+  "devDependencies": {
+    "tslint": "^6.1.2",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "ask-sdk": "^2.8.0"
+  }
+}
