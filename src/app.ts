@@ -1,6 +1,7 @@
-import { Handler } from "./handler";
+import { DirectiveHandlerDispatcher } from "./directive-dispatcher";
+import { DiscoveryHandler } from "./handlers/discovery-handler";
 
-const handlerInstance = new Handler();
+const dispatcher = new DirectiveHandlerDispatcher(new DiscoveryHandler(), []);
 
 // Entry point to the AWS Lambda
-export const handler = handlerInstance.handle.bind(handlerInstance);
+export const handler = dispatcher.handle.bind(dispatcher);
