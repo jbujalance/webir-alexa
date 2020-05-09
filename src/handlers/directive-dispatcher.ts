@@ -1,7 +1,7 @@
 import { AlexaResponse, DiscoveryDirective } from "alexa-smarthome-ts";
-import { SmartHomeDirective } from "./model/model"
-import { DiscoveryHandler } from "./handlers/discovery-handler";
-import { EndpointDirectiveHandler } from "./handlers/directive-handler";
+import { SmartHomeDirective } from "../model/model"
+import { DiscoveryHandler } from "./discovery-handler";
+import { EndpointDirectiveHandler } from "./directive-handler";
 
 /**
  * Lambda handler.
