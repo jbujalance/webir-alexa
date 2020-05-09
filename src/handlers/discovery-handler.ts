@@ -1,32 +1,36 @@
 import { DiscoveryDirective, DiscoverEvent } from "alexa-smarthome-ts";
 import { DirectiveHandler } from "./directive-handler";
+import { v4 as uuidv4 } from "uuid";
+import { createLogger, Logger } from "winston";
 
 export class DiscoveryHandler implements DirectiveHandler<DiscoveryDirective, DiscoverEvent<any>> {
 
+    private logger: Logger = createLogger();
+
     handle(directive: DiscoveryDirective): DiscoverEvent<any> {
+        const event: DiscoverEvent<any> = this.getDiscoverEvent(directive);
+        this.logger.info(`Send discover event with message id ${event.event.header.messageId}`);
+        return event;
+    }
+
+    private getDiscoverEvent(directive: DiscoveryDirective): DiscoverEvent<any> {
         return {
             "event": {
               "header": {
-                "correlationToken": "12345692749237492",
-                "messageId": "1bd5d003-31b9-476f-ad03-71d471922820",
-                "name": "Discover.Response",
                 "namespace": "Alexa.Discovery",
-                "payloadVersion": "3"
+                "name": "Discover.Response",
+                "payloadVersion": "3",
+                "messageId": uuidv4(),
+                "correlationToken": directive.header.correlationToken
               },
               "payload": {
                 "endpoints": [
                   {
-                    "endpointId": "demo_id",
-                    "manufacturerName": "Smart Device Company",
-                    "friendlyName": "Bedroom Outlet",
-                    "description": "Smart Device Switch",
-                    "displayCategories": ["SWITCH"],
-                    "cookie": {
-                      "key1": "arbitrary key/value pairs for skill to reference this endpoint.",
-                      "key2": "There can be multiple entries",
-                      "key3": "but they should only be used for reference purposes.",
-                      "key4": "This is not a suitable place to maintain current endpoint state."
-                    },
+                    "endpointId": "webir_kitchen",
+                    "manufacturerName": "Jose Bujalance",
+                    "friendlyName": "Tele de la cocina",
+                    "description": "Tele de la cocina controlada por Raspberry Pi y WebIR",
+                    "displayCategories": ["TV"],
                     "capabilities": [
                       {
                         "type": "AlexaInterface",
@@ -34,16 +38,17 @@ export class DiscoveryHandler implements DirectiveHandler<DiscoveryDirective, Di
                         "version": "3"
                       },
                       {
+                        "type": "AlexaInterface",
                         "interface": "Alexa.PowerController",
                         "version": "3",
-                        "type": "AlexaInterface",
                         "properties": {
                           "supported": [
                             {
                               "name": "powerState"
                             }
                           ],
-                          "retrievable": true
+                          "proactivelyReported": false,
+                          "retrievable": false
                         }
                       }
                     ]

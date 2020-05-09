@@ -16,7 +16,7 @@ export class DirectiveHandlerDispatcher {
         this.endpointDirectiveHandlers = endpointDirectiveHandlers;
     }
 
-    public async handle(directive: SmartHomeDirective, context: any): Promise<AlexaResponse | null> {
+    public async handle(directive: SmartHomeDirective, context: any): Promise<AlexaResponse | null> { // TODO remove null return
         if (this.isDiscoveryDirective(directive)) {
             return this.discoveryHandler.handle(directive);
         }

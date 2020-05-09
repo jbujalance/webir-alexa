@@ -23,10 +23,13 @@
   },
   "homepage": "https://github.com/jbujalance/webir-alexa#readme",
   "devDependencies": {
+    "@types/uuid": "^7.0.3",
+    "alexa-smarthome-ts": "0.0.1",
     "tslint": "^6.1.2",
     "typescript": "^3.8.3"
   },
   "dependencies": {
-    "alexa-smarthome-ts": "0.0.1"
+    "uuid": "^8.0.0",
+    "winston": "^3.2.1"
   }
 }
