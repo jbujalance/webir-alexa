@@ -1,7 +1,8 @@
-import { AlexaResponse, EndpointDirective } from "alexa-smarthome-ts"
-import { SmartHomeDirective } from "../model/model";
+import { AlexaResponse, EndpointDirective, DiscoveryDirective } from "alexa-smarthome-ts"
 
-export interface DirectiveHandler<D extends SmartHomeDirective, R extends AlexaResponse> {
+export type SmartHomeDirective = DiscoveryDirective | EndpointDirective<any, any>;
+
+export interface DirectiveHandler<D = SmartHomeDirective, R = AlexaResponse> {
     handle(directive: D): R
 }
 
