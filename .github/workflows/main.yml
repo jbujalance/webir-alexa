@@ -26,7 +26,7 @@ jobs:
       - name: Zip the compiled JS
         uses: montudor/action-zip@v0.1.0
         with:
-          args: zip -r ./bundle.zip ./dist
+          args: zip -r bundle ./dist ./node_modules
       - name: Deploy to AWS Lambda
         uses: appleboy/lambda-action@master
         with:
