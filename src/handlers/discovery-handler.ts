@@ -21,7 +21,7 @@ export class DiscoveryHandler implements DirectiveHandler<DiscoveryDirective, Di
                 "name": "Discover.Response",
                 "payloadVersion": "3",
                 "messageId": uuidv4(),
-                "correlationToken": directive.header.correlationToken
+                "correlationToken": directive.directive.header.correlationToken
               },
               "payload": {
                 "endpoints": [
