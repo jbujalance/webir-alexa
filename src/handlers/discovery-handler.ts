@@ -1,14 +1,16 @@
 import { DiscoveryDirective, DiscoverEvent } from "alexa-smarthome-ts";
 import { DirectiveHandler } from "./directive-handler";
 import { v4 as uuidv4 } from "uuid";
-import { createLogger, Logger, transports } from "winston";
+import { createLogger, Logger, transports, format } from "winston";
 
 export class DiscoveryHandler implements DirectiveHandler<DiscoveryDirective, DiscoverEvent<any>> {
 
     private logger: Logger = createLogger({
-      transports: [
-        new transports.Console()
-      ]
+      format: format.combine(
+        format.timestamp(),
+        format.json()
+      ),
+      transports: [ new transports.Console() ]
     });
 
     handle(directive: DiscoveryDirective): DiscoverEvent<any> {
