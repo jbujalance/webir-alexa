@@ -17,10 +17,10 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Compile project
+      - name: Build project
         run: |
           npm ci
-          npm run compile --if-present
+          npm run build --if-present
         env:
           CI: true
       - name: Zip the compiled JS

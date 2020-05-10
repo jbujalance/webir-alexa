@@ -6,8 +6,10 @@
   "scripts": {
     "start": "tsc && node dist/app.js",
     "compile": "tsc",
+    "build": "jest && tsc",
     "lint": "tslint -p tsconfig.json",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "coverage": "jest --coverage"
   },
   "repository": {
     "type": "git",
@@ -23,8 +25,11 @@
   },
   "homepage": "https://github.com/jbujalance/webir-alexa#readme",
   "devDependencies": {
+    "@types/jest": "^25.2.1",
     "@types/uuid": "^7.0.3",
     "alexa-smarthome-ts": "0.0.1",
+    "jest": "^26.0.1",
+    "ts-jest": "^25.5.1",
     "tslint": "^6.1.2",
     "typescript": "^3.8.3"
   },
