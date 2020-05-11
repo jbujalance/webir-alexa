@@ -7,11 +7,11 @@ export class WebIrClient {
 
     private logger: Logger = createLogger({
         format: format.combine(
-          format.timestamp(),
-          format.json()
+            format.timestamp(),
+            format.json()
         ),
-        transports: [ new transports.Console() ]
-      });
+        transports: [new transports.Console()]
+    });
 
     constructor() {
         this.httpClient = this.buildAxiosInstance();
@@ -27,10 +27,13 @@ export class WebIrClient {
         axiosInstance.interceptors.request.use(request => {
             this.logger.debug(`${request.method} request to ${request.url}`);
             return request;
+        }, error => {
+            this.logger.error(error.toJSON());
+            return Promise.reject(error);
         });
         // Interceptor logging the responses
         axiosInstance.interceptors.response.use(response => {
-            this.logger.debug(`Respnse with status ${response.status} and payload ${response.data}`);
+            this.logger.debug(`Response with status ${response.status} and payload ${response.data}`);
             return response;
         });
         return axiosInstance;

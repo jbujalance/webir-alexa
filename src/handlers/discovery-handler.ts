@@ -6,11 +6,11 @@ import { createLogger, Logger, transports, format } from "winston";
 export class DiscoveryHandler implements DirectiveHandler<DiscoveryDirective, DiscoverEvent<any>> {
 
     private logger: Logger = createLogger({
-      format: format.combine(
-        format.timestamp(),
-        format.json()
-      ),
-      transports: [ new transports.Console() ]
+        format: format.combine(
+            format.timestamp(),
+            format.json()
+        ),
+        transports: [new transports.Console()]
     });
 
     handle(directive: DiscoveryDirective): DiscoverEvent<any> {
@@ -22,47 +22,47 @@ export class DiscoveryHandler implements DirectiveHandler<DiscoveryDirective, Di
     private getDiscoverEvent(directive: DiscoveryDirective): DiscoverEvent<any> {
         return {
             "event": {
-              "header": {
-                "namespace": "Alexa.Discovery",
-                "name": "Discover.Response",
-                "payloadVersion": "3",
-                "messageId": uuidv4(),
-                "correlationToken": directive.directive.header.correlationToken
-              },
-              "payload": {
-                "endpoints": [
-                  {
-                    "endpointId": "webir_kitchen",
-                    "manufacturerName": "Jose Bujalance",
-                    "friendlyName": "Tele de la cocina",
-                    "description": "Tele de la cocina controlada por Raspberry Pi y WebIR",
-                    "displayCategories": ["TV"],
-                    "capabilities": [
-                      {
-                        "type": "AlexaInterface",
-                        "interface": "Alexa",
-                        "version": "3"
-                      },
-                      {
-                        "type": "AlexaInterface",
-                        "interface": "Alexa.PowerController",
-                        "version": "3",
-                        "properties": {
-                          "supported": [
-                            {
-                              "name": "powerState"
-                            }
-                          ],
-                          "proactivelyReported": false,
-                          "retrievable": false
+                "header": {
+                    "namespace": "Alexa.Discovery",
+                    "name": "Discover.Response",
+                    "payloadVersion": "3",
+                    "messageId": uuidv4(),
+                    "correlationToken": directive.directive.header.correlationToken
+                },
+                "payload": {
+                    "endpoints": [
+                        {
+                            "endpointId": "webir_kitchen",
+                            "manufacturerName": "Jose Bujalance",
+                            "friendlyName": "Tele de la cocina",
+                            "description": "Tele de la cocina controlada por Raspberry Pi y WebIR",
+                            "displayCategories": ["TV"],
+                            "capabilities": [
+                                {
+                                    "type": "AlexaInterface",
+                                    "interface": "Alexa",
+                                    "version": "3"
+                                },
+                                {
+                                    "type": "AlexaInterface",
+                                    "interface": "Alexa.PowerController",
+                                    "version": "3",
+                                    "properties": {
+                                        "supported": [
+                                            {
+                                                "name": "powerState"
+                                            }
+                                        ],
+                                        "proactivelyReported": false,
+                                        "retrievable": false
+                                    }
+                                }
+                            ]
                         }
-                      }
                     ]
-                  }
-                ]
-              }
+                }
             }
-          };
+        };
     }
 
 }
