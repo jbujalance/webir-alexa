@@ -1,4 +1,4 @@
-import { DiscoveryHandler } from "../../src/handlers/discovery-handler"
+import { DiscoveryHandler } from "../../src/handlers/discovery-handler";
 import { DiscoveryDirective } from "alexa-smarthome-ts";
 
 describe("Discovery handler", () => {

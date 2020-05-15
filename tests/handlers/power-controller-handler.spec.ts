@@ -1,8 +1,7 @@
-import { PowerControllerHandler } from "../../src/handlers/power-controller-handler"
-import { WebIrClient } from "../../src/webir-client"
-import { TurnOn, TurnOff, ResponseEvent, ErrorResponse } from "alexa-smarthome-ts"
-import {} from "axios"
-import { mocked } from 'ts-jest/utils'
+import { PowerControllerHandler } from "../../src/handlers/power-controller-handler";
+import { WebIrClient } from "../../src/webir-client";
+import { TurnOn, TurnOff, ResponseEvent, ErrorResponse } from "alexa-smarthome-ts";
+import { mocked } from 'ts-jest/utils';
 
 jest.mock("../../src/webir-client");
 const MockWebIrClient = WebIrClient as jest.Mock<WebIrClient>;
