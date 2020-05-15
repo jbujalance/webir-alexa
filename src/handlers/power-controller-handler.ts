@@ -31,13 +31,9 @@ export class PowerControllerHandler implements EndpointDirectiveHandler<PowerCon
         this.logger.info(`Handling directive ${directive.directive.header.name}`);
         // Whether the directive is TurnOn or TurnOff, we send the same code
         return this.webIrClient.sendCodes([this.POWER_CODE])
-            .then(() => {
-                // If the response from WebIR is not an error, we respond with an Alexa response event. We don't actually care about the WebIR response payload
-                return this.buildResponseEvent(directive);
-            })
-            .catch(error => {
-                return this.buildErrorResponse(directive, error);
-            });
+            // If the response from WebIR is not an error, we respond with an Alexa response event. We don't actually care about the WebIR response payload
+            .then(() => this.buildResponseEvent(directive))
+            .catch(error => this.buildErrorResponse(directive, error));
     }
 
     private isTurnOn(directive: PowerControllerDirective): directive is TurnOn {
