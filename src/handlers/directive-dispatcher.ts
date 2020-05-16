@@ -20,11 +20,11 @@ export class DirectiveHandlerDispatcher {
         if (this.isDiscoveryDirective(directive)) {
             return this.discoveryHandler.handle(directive);
         }
-        this.endpointDirectiveHandlers.forEach(handler => {
+        for (const handler of this.endpointDirectiveHandlers) {
             if (handler.canHandle(directive)) {
                 return handler.handle(directive);
             }
-        });
+        }
         return this.buildErrorResponse(directive);
     }
 
