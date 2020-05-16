@@ -3,6 +3,7 @@ import { createLogger, Logger, transports, format } from "winston";
 
 export class WebIrClient {
 
+    private readonly TIMEOUT = 5000;
     private httpClient: AxiosInstance;
 
     private logger: Logger = createLogger({
@@ -21,11 +22,11 @@ export class WebIrClient {
         const axiosInstance = Axios.create({
             // TODO update URL once the gateway exists. In this Axios configuration you will need to add the Basic auth to authentify against the gateway.
             baseURL: "http://pi.bujalancedev.com/remote/send",
-            timeout: 5000
+            timeout: this.TIMEOUT
         });
         // Interceptor logging the requests
         axiosInstance.interceptors.request.use(request => {
-            this.logger.debug(`${request.method} request to ${request.url}`);
+            this.logger.info(`${request.method} request to ${request.url}`);
             return request;
         }, error => {
             this.logger.error(error.toJSON());
@@ -33,7 +34,7 @@ export class WebIrClient {
         });
         // Interceptor logging the responses
         axiosInstance.interceptors.response.use(response => {
-            this.logger.debug(`Response with status ${response.status} and payload ${response.data}`);
+            this.logger.info(`Response with status ${response.status} and payload ${response.data}`);
             return response;
         });
         return axiosInstance;
@@ -41,11 +42,21 @@ export class WebIrClient {
 
     sendCodes(codes: string[]): Promise<AxiosResponse<WebIrResponse>> {
         const jointCodes = codes.join(",");
-        return this.httpClient.get(`/codes/${jointCodes}`);
+        return this.getRequestWithConnectionTimeout(`/codes/${jointCodes}`);
     }
 
     sendInteger(int: number): Promise<AxiosResponse<WebIrResponse>> {
-        return this.httpClient.get(`/integer/${int}`);
+        return this.getRequestWithConnectionTimeout(`/integer/${int}`);
+    }
+
+    private getRequestWithConnectionTimeout(url: string): Promise<AxiosResponse<WebIrResponse>> {
+        // This is a shitty workaround because the great Axios does not support connection timeouts, only response timeouts.
+        const source = Axios.CancelToken.source();
+        setTimeout(() => {
+            this.logger.info(`The connection to the URL ${url} has timed out`);
+            source.cancel();
+        }, this.TIMEOUT);
+        return this.httpClient.get(url, {cancelToken: source.token});
     }
 }
 

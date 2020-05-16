@@ -84,7 +84,7 @@ export class PowerControllerHandler implements EndpointDirectiveHandler<PowerCon
                 },
                 "payload": {
                     "type": "ENDPOINT_UNREACHABLE",
-                    "message": error.message
+                    "message": error.message || "Probably a connection time out"
                 }
             }
         };
