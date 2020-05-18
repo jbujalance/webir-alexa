@@ -26,7 +26,10 @@ describe("Discovery handler", () => {
           };
 
         // WHEN handling the discovery directive
-        discoveryHandler.handle(discoveryDirective);
+        const discoveryEvent = discoveryHandler.handle(discoveryDirective);
+
+        // THEN the discovery event is not linked to any correlation token
+        expect(discoveryEvent.event.header.correlationToken).toBeUndefined();
     });
 
     it("should respond to a discovery directive with correlation token", () => {

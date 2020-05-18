@@ -34,7 +34,7 @@ export class DiscoveryHandler implements DirectiveHandler<DiscoveryDirective, Di
                         {
                             "endpointId": "webir_kitchen",
                             "manufacturerName": "Jose Bujalance",
-                            "friendlyName": "Tele de la cocina",
+                            "friendlyName": "La tele de la cocina",
                             "description": "Tele de la cocina controlada por Raspberry Pi y WebIR",
                             "displayCategories": ["TV"],
                             "capabilities": [
@@ -56,6 +56,11 @@ export class DiscoveryHandler implements DirectiveHandler<DiscoveryDirective, Di
                                         "proactivelyReported": false,
                                         "retrievable": false
                                     }
+                                },
+                                {
+                                    "type": "AlexaInterface",
+                                    "interface": "Alexa.StepSpeaker",
+                                    "version": "3"
                                 }
                             ]
                         }

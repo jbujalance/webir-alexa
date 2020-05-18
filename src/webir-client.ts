@@ -40,23 +40,28 @@ export class WebIrClient {
         return axiosInstance;
     }
 
-    sendCodes(codes: string[]): Promise<AxiosResponse<WebIrResponse>> {
+    sendCodes(codes: string[], count?: number): Promise<AxiosResponse<WebIrResponse>> {
         const jointCodes = codes.join(",");
-        return this.getRequestWithConnectionTimeout(`/codes/${jointCodes}`);
+        const params = count ? {count} : undefined;
+        return this.getRequestWithConnectionTimeout(`/codes/${jointCodes}`, params);
     }
 
-    sendInteger(int: number): Promise<AxiosResponse<WebIrResponse>> {
-        return this.getRequestWithConnectionTimeout(`/integer/${int}`);
+    sendInteger(int: number, count?: number): Promise<AxiosResponse<WebIrResponse>> {
+        const params = count ? {count} : undefined;
+        return this.getRequestWithConnectionTimeout(`/integer/${int}`, params);
     }
 
-    private getRequestWithConnectionTimeout(url: string): Promise<AxiosResponse<WebIrResponse>> {
+    private getRequestWithConnectionTimeout(url: string, parameters?: any): Promise<AxiosResponse<WebIrResponse>> {
         // This is a shitty workaround because the great Axios does not support connection timeouts, only response timeouts.
         const source = Axios.CancelToken.source();
         setTimeout(() => {
             this.logger.info(`The connection to the URL ${url} has timed out`);
             source.cancel();
         }, this.TIMEOUT);
-        return this.httpClient.get(url, {cancelToken: source.token});
+        return this.httpClient.get(url, {
+            cancelToken: source.token,
+            params: parameters
+        });
     }
 }
 

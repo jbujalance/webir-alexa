@@ -1,9 +1,9 @@
-import { TurnOn, TurnOff, ResponseEvent, POWER_CONTROLLER, ErrorResponse } from "alexa-smarthome-ts";
+import { TurnOn, TurnOff, ResponseEvent, POWER_CONTROLLER, ErrorResponse, TURN_ON_DIRECTIVE } from "alexa-smarthome-ts";
 import { EndpointDirectiveHandler } from "./directive-handler";
 import { WebIrClient } from "../webir-client";
 import { v4 as uuidv4 } from "uuid";
 import { Logger, createLogger, format, transports } from "winston";
-import { AxiosError } from "axios";
+import { buildErrorResponse } from "./util";
 
 declare type PowerControllerDirective = TurnOn | TurnOff;
 
@@ -33,11 +33,11 @@ export class PowerControllerHandler implements EndpointDirectiveHandler<PowerCon
         return this.webIrClient.sendCodes([this.POWER_CODE])
             // If the response from WebIR is not an error, we respond with an Alexa response event. We don't actually care about the WebIR response payload
             .then(() => this.buildResponseEvent(directive))
-            .catch(error => this.buildErrorResponse(directive, error));
+            .catch(error => buildErrorResponse(directive, error));
     }
 
     private isTurnOn(directive: PowerControllerDirective): directive is TurnOn {
-        return directive.directive.header.name === "TurnOn";
+        return directive.directive.header.name === TURN_ON_DIRECTIVE;
     }
 
     private buildResponseEvent(directive: PowerControllerDirective): ResponseEvent<"Alexa.PowerController"> {
@@ -68,26 +68,4 @@ export class PowerControllerHandler implements EndpointDirectiveHandler<PowerCon
             }
         };
     }
-
-    private buildErrorResponse(directive: PowerControllerDirective, error: AxiosError): ErrorResponse {
-        return {
-            "event": {
-                "header": {
-                    "namespace": "Alexa",
-                    "name": "ErrorResponse",
-                    "messageId": uuidv4(),
-                    "payloadVersion": "3"
-                },
-                // @ts-ignore
-                "endpoint": {
-                    "endpointId": directive.directive.endpoint.endpointId
-                },
-                "payload": {
-                    "type": "ENDPOINT_UNREACHABLE",
-                    "message": error.message || "Probably a connection time out"
-                }
-            }
-        };
-    }
-
 }
