@@ -174,7 +174,7 @@ describe("PowerControllerHandler", () => {
         expect(response.event.header.namespace).toEqual("Alexa");
         expect(response.event.header.name).toEqual("Response");
 
-        response = response as ResponseEvent<"Alexa.PowerController">
+        response = response as ResponseEvent<"Alexa.PowerController">;
         // AND the context specifies that the TV has been turned off
         expect(response.context.properties[0].value).toEqual("OFF");
     });
@@ -223,7 +223,7 @@ describe("PowerControllerHandler", () => {
         expect(response.event.header.namespace).toEqual("Alexa");
         expect(response.event.header.name).toEqual("Response");
 
-        response = response as ResponseEvent<"Alexa.PowerController">
+        response = response as ResponseEvent<"Alexa.PowerController">;
         // AND the context specifies that the TV has been turned on
         expect(response.context.properties[0].value).toEqual("ON");
     });
@@ -272,7 +272,7 @@ describe("PowerControllerHandler", () => {
         expect(response.event.header.namespace).toEqual("Alexa");
         expect(response.event.header.name).toEqual("ErrorResponse");
 
-        response = response as ErrorResponse
+        response = response as ErrorResponse;
         // AND the expected error type is set on the error payload
         expect(response.event.payload.type).toEqual("ENDPOINT_UNREACHABLE");
     });

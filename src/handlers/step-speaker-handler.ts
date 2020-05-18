@@ -2,7 +2,6 @@ import { EndpointDirectiveHandler } from "./directive-handler";
 import { AdjustVolume } from "../directives/AdjustVolume";
 import { SetMute } from "../directives/SetMute";
 import { ResponseEvent, ErrorResponse } from "alexa-smarthome-ts";
-import { STEP_SPEAKER, ADJUST_VOLUME_DIRECTIVE } from "../capabilities/StepSpeaker";
 import { Logger, createLogger, format, transports } from "winston";
 import { WebIrClient } from "../webir-client";
 import { v4 as uuidv4 } from "uuid";
@@ -30,7 +29,7 @@ export class StepSpeakerHandler implements EndpointDirectiveHandler<StepSpeakerD
     }
 
     canHandle(directive: StepSpeakerDirective): boolean {
-        return directive.directive.header.namespace === STEP_SPEAKER;
+        return directive.directive.header.namespace === "Alexa.StepSpeaker";
     }
 
     async handle(directive: StepSpeakerDirective): Promise<ResponseEvent<"Alexa.StepSpeaker"> | ErrorResponse> {
@@ -43,7 +42,7 @@ export class StepSpeakerHandler implements EndpointDirectiveHandler<StepSpeakerD
     }
 
     private isAdjustVolume(directive: StepSpeakerDirective): directive is AdjustVolume {
-        return directive.directive.header.name === ADJUST_VOLUME_DIRECTIVE;
+        return directive.directive.header.name === "AdjustVolume";
     }
 
     private getWebIrCodes(directive: StepSpeakerDirective): string[] {
