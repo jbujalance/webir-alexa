@@ -2,11 +2,18 @@ import { AlexaResponse, DiscoveryDirective, ErrorResponse, EndpointDirective } f
 import { DiscoveryHandler } from "./discovery-handler";
 import { EndpointDirectiveHandler, SmartHomeDirective } from "./directive-handler";
 import { v4 as uuidv4 } from "uuid";
+import { Logger, createLogger, format, transports } from "winston";
 
-/**
- * Lambda handler.
- */
+
 export class DirectiveHandlerDispatcher {
+
+    private readonly logger: Logger = createLogger({
+        format: format.combine(
+            format.timestamp(),
+            format.json()
+        ),
+        transports: [new transports.Console()]
+    });
 
     private discoveryHandler: DiscoveryHandler;
     private endpointDirectiveHandlers: EndpointDirectiveHandler<any, any>[];
@@ -18,13 +25,16 @@ export class DirectiveHandlerDispatcher {
 
     public async handle(directive: SmartHomeDirective, context: any): Promise<AlexaResponse | ErrorResponse> {
         if (this.isDiscoveryDirective(directive)) {
+            this.logger.info("Dispatching discovery directive");
             return this.discoveryHandler.handle(directive);
         }
         for (const handler of this.endpointDirectiveHandlers) {
             if (handler.canHandle(directive)) {
+                this.logger.info(`Dispatching directive ${directive.directive.header.name}`);
                 return handler.handle(directive);
             }
         }
+        this.logger.error(`No handlers were found for the directive ${directive.directive.header.name}`);
         return this.buildErrorResponse(directive);
     }
 
