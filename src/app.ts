@@ -3,11 +3,13 @@ import { PowerControllerHandler } from "./handlers/power-controller-handler";
 import { StepSpeakerHandler } from "./handlers/step-speaker-handler";
 import { WebIrClient } from "./webir-client";
 import { DiscoveryHandler } from "./handlers/discovery-handler";
+import { SkipChannelsHandler } from "./handlers/skip-channels-handler";
 
 const webIrClient = new WebIrClient();
 const handlers = [
     new PowerControllerHandler(webIrClient),
-    new StepSpeakerHandler(webIrClient)
+    new StepSpeakerHandler(webIrClient),
+    new SkipChannelsHandler(webIrClient)
 ];
 const dispatcher = new DirectiveHandlerDispatcher(new DiscoveryHandler(), handlers);
 
