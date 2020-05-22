@@ -1,7 +1,7 @@
 export declare const STEP_SPEAKER = "Alexa.StepSpeaker";
 export declare const ADJUST_VOLUME_DIRECTIVE = "AdjustVolume";
 export declare const SET_MUTE_DIRECTIVE = "SetMute";
-export declare type PowerState = 'ON' | 'OFF';
+
 declare module '../../node_modules/alexa-smarthome-ts/lib/base/Capabilities' {
     interface Capabilities {
         [STEP_SPEAKER]: true;
