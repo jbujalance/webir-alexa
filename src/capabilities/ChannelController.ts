@@ -39,11 +39,11 @@ declare module '../../node_modules/alexa-smarthome-ts/lib/base/Directives' {
 declare module '../../node_modules/alexa-smarthome-ts/lib/base/Payloads' {
     interface Payloads {
         [CHANGE_CHANNEL_DIRECTIVE]: {
-            channel: Channel,
-            channelMetadata: ChannelMetadata
+            channel: Channel;
+            channelMetadata: ChannelMetadata;
         };
         [SKIP_CHANNELS_DIRECTIVE]: {
-            channelCount: number
+            channelCount: number;
         };
     }
 }
