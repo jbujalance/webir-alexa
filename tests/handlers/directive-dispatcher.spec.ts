@@ -211,6 +211,6 @@ describe("DirectiveHandlerDispatcher", () => {
         expect(response.event.header.namespace).toEqual("Alexa");
         expect(response.event.header.name).toEqual("ErrorResponse");
         response = response as ErrorResponse;
-        expect(response.event.payload.type).toEqual("ENDPOINT_UNREACHABLE");
+        expect(response.event.payload.type).toEqual("INVALID_DIRECTIVE");
     });
 });

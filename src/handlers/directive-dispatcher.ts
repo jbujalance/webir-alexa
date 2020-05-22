@@ -56,7 +56,7 @@ export class DirectiveHandlerDispatcher {
                     "endpointId": directive.directive.endpoint.endpointId
                 },
                 "payload": {
-                    "type": "ENDPOINT_UNREACHABLE",
+                    "type": "INVALID_DIRECTIVE",
                     "message": "No handlers could handle the directive"
                 }
             }
