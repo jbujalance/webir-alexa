@@ -61,6 +61,20 @@ export class DiscoveryHandler implements DirectiveHandler<DiscoveryDirective, Di
                                     "type": "AlexaInterface",
                                     "interface": "Alexa.StepSpeaker",
                                     "version": "3"
+                                },
+                                {
+                                    "type": "AlexaInterface",
+                                    "interface": "Alexa.ChannelController",
+                                    "version": "3",
+                                    "properties": {
+                                        "supported": [
+                                            {
+                                                "name": "channel"
+                                            }
+                                        ],
+                                        "proactivelyReported": false,
+                                        "retrievable": false
+                                    }
                                 }
                             ]
                         }
