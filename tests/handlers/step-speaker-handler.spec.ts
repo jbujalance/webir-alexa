@@ -3,7 +3,7 @@ import { StepSpeakerHandler } from "../../src/handlers/step-speaker-handler";
 import { AdjustVolume } from "../../src/directives/AdjustVolume";
 import { SetMute } from "../../src/directives/SetMute";
 import { mocked } from "ts-jest/utils";
-import { ResponseEvent, ErrorResponse } from "alexa-smarthome-ts";
+import { ErrorResponse } from "alexa-smarthome-ts";
 
 jest.mock("../../src/webir-client");
 const MockWebIrClient = WebIrClient as jest.Mock<WebIrClient>;
