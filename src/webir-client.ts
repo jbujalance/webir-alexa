@@ -34,7 +34,7 @@ export class WebIrClient {
         });
         // Interceptor logging the responses
         axiosInstance.interceptors.response.use(response => {
-            this.logger.info(`Response with status ${response.status} and payload ${response.data}`);
+            this.logger.info(`Response with status ${response.status} and payload ${JSON.stringify(response.data)}`);
             return response;
         });
         return axiosInstance;

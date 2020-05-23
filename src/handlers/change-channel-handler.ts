@@ -30,7 +30,7 @@ export class ChangeChannelHandler implements EndpointDirectiveHandler<ChangeChan
 
     async handle(directive: ChangeChannel): Promise<ResponseEvent<"Alexa.ChannelController"> | ErrorResponse> {
         this.logger.info(`Handling directive ${directive.directive.header.name}`);
-        this.logger.info(`Directive payload: ${directive.directive.payload}`);
+        this.logger.info(`Directive payload: ${JSON.stringify(directive.directive.payload)}`);
         return this.webIrClient.sendInteger(this.getChannelNumber(directive))
             .then(() => this.buildResponseEvent(directive))
             .catch(error => buildErrorResponse(directive, error));
