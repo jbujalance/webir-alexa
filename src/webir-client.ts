@@ -55,7 +55,6 @@ export class WebIrClient {
         // This is a shitty workaround because the great Axios does not support connection timeouts, only response timeouts.
         const source = Axios.CancelToken.source();
         setTimeout(() => {
-            this.logger.info(`The connection to the URL ${url} has timed out`);
             source.cancel();
         }, this.TIMEOUT);
         return this.httpClient.get(url, {
