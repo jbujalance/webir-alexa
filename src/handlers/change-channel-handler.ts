@@ -31,9 +31,19 @@ export class ChangeChannelHandler implements EndpointDirectiveHandler<ChangeChan
     async handle(directive: ChangeChannel): Promise<ResponseEvent<"Alexa.ChannelController"> | ErrorResponse> {
         this.logger.info(`Handling directive ${directive.directive.header.name}`);
         this.logger.info(`Directive payload: ${JSON.stringify(directive.directive.payload)}`);
-        return this.webIrClient.sendInteger(this.getChannelNumber(directive))
-            .then(() => this.buildResponseEvent(directive))
-            .catch(error => buildErrorResponse(directive, error));
+        const channelNumber = directive.directive.payload.channel.number;
+        const channelName = directive.directive.payload.channelMetadata.name;
+        if (channelNumber) {
+            return this.webIrClient.sendInteger(parseInt(channelNumber, 10))
+                .then(() => this.buildResponseEvent(directive))
+                .catch(error => buildErrorResponse(directive, error));
+        } else if (channelName) {
+            return this.webIrClient.sendChannel(channelName)
+                .then(() => this.buildResponseEvent(directive))
+                .catch(error => buildErrorResponse(directive, error));
+        } else {
+            return Promise.reject(this.buildDirectiveErrorResponse(directive));
+        }
     }
 
     private getChannelNumber(directive: ChangeChannel): number {
@@ -81,6 +91,27 @@ export class ChangeChannelHandler implements EndpointDirectiveHandler<ChangeChan
                         "uncertaintyInMilliseconds": 500
                     }
                 ]
+            }
+        };
+    }
+
+    private buildDirectiveErrorResponse(directive: ChangeChannel): ErrorResponse {
+        return {
+            "event": {
+                "header": {
+                    "namespace": "Alexa",
+                    "name": "ErrorResponse",
+                    "messageId": uuidv4(),
+                    "payloadVersion": "3"
+                },
+                // @ts-ignore
+                "endpoint": {
+                    "endpointId": directive.directive.endpoint.endpointId
+                },
+                "payload": {
+                    "type": "INVALID_DIRECTIVE",
+                    "message": "Neither the channel number nor the channel name are available in the directive's payload."
+                }
             }
         };
     }
