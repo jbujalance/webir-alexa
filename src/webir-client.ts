@@ -21,6 +21,7 @@ export class WebIrClient {
     private buildAxiosInstance(): AxiosInstance {
         const axiosInstance = Axios.create({
             // TODO update URL once the gateway exists. In this Axios configuration you will need to add the Basic auth to authentify against the gateway.
+            // The env variable is configured in the AWS Lambda configuration. Remember that the lambda is hosted in the eu-west-1 region.
             baseURL: `${process.env.WEBIR_URL}/remote/send`,
             timeout: this.TIMEOUT
         });
