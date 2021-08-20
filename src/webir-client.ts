@@ -1,4 +1,6 @@
 import Axios, { AxiosInstance, AxiosResponse } from "axios";
+import oauth from "axios-oauth-client";
+import AxiosTokenProvider from "axios-token-interceptor";
 import { createLogger, Logger, transports, format } from "winston";
 
 export class WebIrClient {
@@ -20,11 +22,25 @@ export class WebIrClient {
 
     private buildAxiosInstance(): AxiosInstance {
         const axiosInstance = Axios.create({
-            // TODO update URL once the gateway exists. In this Axios configuration you will need to add the Basic auth to authentify against the gateway.
             // The env variable is configured in the AWS Lambda configuration. Remember that the lambda is hosted in the eu-west-1 region.
             baseURL: `${process.env.WEBIR_URL}/remote/send`,
             timeout: this.TIMEOUT
         });
+
+        // Hook to retrieve OAuth access token
+        const getClientCredentials = oauth.client(Axios.create(), {
+            url: process.env.OAUTH_TOKEN_ENDPOINT,
+            grant_type: 'client_credentials',
+            client_id: process.env.OAUTH_CLIENT_ID,
+            client_secret: process.env.OAUTH_CLIENT_SECRET,
+            scope: 'webir'
+        });
+
+        // Interceptor to add OAuth token to every request
+        axiosInstance.interceptors.request.use(
+            oauth.interceptor(AxiosTokenProvider, getClientCredentials)
+        );
+
         // Interceptor logging the requests
         axiosInstance.interceptors.request.use(request => {
             this.logger.info(`${request.method} request to ${request.url}`);

@@ -8,8 +8,11 @@ The entry point of the Skill is the handler of the lambda, which can be found in
 Each directive handler will make the corresponding requests to the WebIR server, sending the expected codes to it so that the WebIR server can send the corresponding commands to the LIRC daemon. 
 
 ## Configuration
-The location of the WebIR server has to be configured as an environment variable on the AWS Lambda:
+The following environment variables need to be provided:
 * `WEBIR_URL`: The URL of the WebIR server that will handle the requests and pass the commands to the LIRC daemon. For example: `http://webir.mydomain.com`
+* `OAUTH_TOKEN_ENDPOINT`: The endpoint of the OAuth server which provides the access tokens.
+* `OAUTH_CLIENT_ID`: The ID of the OAuth client used to authenticate using the client-credencials flow.
+* `OAUTH_CLIENT_SECRET`: The secret of the OAuth client used to authenticate using the client-credencials flow.
 
 The entry point of the lambda function must be defined on the AWS Lambda developer console. The entry point must be set to the compiled Javascript code:
 * `dist/app.js`
