@@ -1,1 +1,5 @@
-declare module "axios-oauth-client";  // This module has not available TS types
+/**
+ * Declarations for modules that do not hace TypeScript types.
+ */
+
+declare module "axios-oauth-client";
