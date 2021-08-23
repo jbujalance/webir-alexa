@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/jbujalance/webir-alexa#readme",
   "devDependencies": {
+    "@types/axios-token-interceptor": "^0.2.2",
     "@types/jest": "^25.2.1",
     "@types/uuid": "^7.0.3",
     "alexa-smarthome-ts": "0.0.1",
@@ -36,6 +37,8 @@
   },
   "dependencies": {
     "axios": "^0.19.2",
+    "axios-oauth-client": "^1.4.3",
+    "axios-token-interceptor": "^0.2.0",
     "uuid": "^8.0.0",
     "winston": "^3.2.1"
   }
